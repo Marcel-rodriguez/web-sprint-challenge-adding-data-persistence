@@ -34,7 +34,7 @@ exports.up = function(knex) {
             .inTable('projects')
             .onDelete('RESTRICT')
             .onUpdate('RESTRICT')    
-        table.integer('recource_id')
+        table.integer('resource_id')
             .unsigned()
             .notNullable()
             .references('resource_id')
@@ -45,7 +45,7 @@ exports.up = function(knex) {
             .unsigned()
             .notNullable()
             .references('task_id')
-            .inTable('taks')
+            .inTable('tasks')
             .onDelete('RESTRICT')
             .onUpdate('RESTRICT')
     })
@@ -54,7 +54,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   return knex.schema
   .dropTableIfExists('resource_assignment')
-  .dropTableIfExists('task')
-  .dropTableIfExists('resource')
-  .dropTableIfExists('project')
+  .dropTableIfExists('tasks')
+  .dropTableIfExists('resources')
+  .dropTableIfExists('projects')
 };

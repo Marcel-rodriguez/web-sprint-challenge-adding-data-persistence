@@ -11,7 +11,7 @@ const server = express()
 server.use(express.json())
 server.use(morgan('tiny'))
 
-server.use('/api/recipes', tasksRouter)
+server.use('/api/tasks', tasksRouter)
 server.use('/api/resources', resourceRouter)
 server.use('/api/projects', projectRouter)
 
