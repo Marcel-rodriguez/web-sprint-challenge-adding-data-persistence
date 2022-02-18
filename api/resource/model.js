@@ -2,13 +2,15 @@
 const db = require('../../data/dbConfig')
 
 async function getAll(){
-    // const allData = await db('resources')
-    // return allData
-    return Promise.resolve('All your resources should be here')
+    return db('resources')
 }
 
-function addResource(){
-    return Promise.resolve('You can post a resource like this.')
+async function addResource(resource){
+    await db('resources')
+        .insert(resource)
+    return await db('resources')
+        .where('resource_name', resource.resource_name)
+        .first()
 }
 
 module.exports = {

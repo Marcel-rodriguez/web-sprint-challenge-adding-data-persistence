@@ -2,14 +2,27 @@
 const db = require('../../data/dbConfig')
 
 async function getAll(){
-    // const allData = await db('projects')
-    // return allData
-
-    return Promise.resolve('All your projects should be here')
+    const allData = await db('projects')
+    return allData.map(project => {
+        if(project.project_completed === 1){
+            return {
+                ...project,
+                project_completed: true,
+            }
+        } else {
+            return {
+                ...project,
+                project_completed: false,
+            }
+        }
+    })
 }
 
-function addProject(){
-    return Promise.resolve('You can post a project like this.')
+async function addProject(project){
+    await db('projects').insert(project)
+    return await db('projects')
+        .where('project_name', project.project_name)
+        .first()
 }
 
 module.exports = {

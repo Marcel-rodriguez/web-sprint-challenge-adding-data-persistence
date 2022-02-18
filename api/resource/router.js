@@ -11,12 +11,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    resourceModel.addResource()
+    resourceModel.addResource(req.body)
     .then(newResource => {
-        res.status(201).json({
-            newResource,
-            message: "resource created"
-        })
+        res.status(201).json(newResource)
     }).catch(next)
 })
 

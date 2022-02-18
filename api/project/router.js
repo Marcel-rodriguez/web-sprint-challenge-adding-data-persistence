@@ -11,12 +11,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    projectModel.addProject()
+    projectModel.addProject(req.body)
     .then(newProject => {
-        res.status(201).json({
-            newProject,
-            message: "project created"
-        })
+        res.status(201).json(newProject)
     }).catch(next)
 })
 
