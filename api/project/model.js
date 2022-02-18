@@ -20,9 +20,21 @@ async function getAll(){
 
 async function addProject(project){
     await db('projects').insert(project)
-    return await db('projects')
+    const newProject = await db('projects')
         .where('project_name', project.project_name)
         .first()
+
+        if(newProject.task_completed === 0){
+            return {
+                ...newProject,
+                task_completed: false
+            }
+        } else {
+            return {
+                ...newProject,
+                task_completed: false
+            }
+        }
 }
 
 module.exports = {

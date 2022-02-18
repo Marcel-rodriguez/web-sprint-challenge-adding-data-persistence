@@ -12,12 +12,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    taskModel.addTask()
+    taskModel.addTask(req.body)
     .then(newTask => {
-        res.status(201).json({
-            newTask,
-            message: "task created"
-        })
+        res.status(201).json(newTask)
     }).catch(next)
 })
 
