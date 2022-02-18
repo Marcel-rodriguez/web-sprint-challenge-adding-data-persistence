@@ -1,2 +1,3 @@
 exports.seed = function(knex) {
+    
 }
