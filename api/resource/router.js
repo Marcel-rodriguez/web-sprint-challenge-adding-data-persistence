@@ -1,5 +1,6 @@
 // build your `/api/resources` router here
 const express = require('express')
+const { checkResourcePayload } = require('../middlewares/middlewares')
 const router = express.Router()
 const resourceModel = require('./model')
 
@@ -10,7 +11,7 @@ router.get('/', (req, res, next) => {
     }).catch(next)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', checkResourcePayload, (req, res, next) => {
     resourceModel.addResource(req.body)
     .then(newResource => {
         res.status(201).json(newResource)

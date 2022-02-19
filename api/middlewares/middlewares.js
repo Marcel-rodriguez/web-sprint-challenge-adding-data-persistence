@@ -42,6 +42,21 @@ const checkProjectNameUnique = async (req, res, next) => {
 
 //resources middlewares
 
+const resourcePayloadSchema = yup.object({
+    resource_name: yup.string().required(),
+    resource_description: yup.string()
+})
+
+const checkResourcePayload = async (req, res, next) => {
+    try{
+        const validPayload = await resourcePayloadSchema.validate(req.body)
+        req.body = validPayload
+        next()
+    } catch(err) {
+        next({status: 400, message: err.message})
+    }
+}
+
 //tasks middlewares
 
 const taskPayloadSchema = yup.object({
@@ -66,4 +81,5 @@ module.exports = {
     checkProjectPayload,
     checkProjectNameUnique,
     checkTaskPayload,
+    checkResourcePayload
 }
