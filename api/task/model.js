@@ -2,11 +2,26 @@
 const db = require('../../data/dbConfig')
 
 async function getAll(){
-   return await db('tasks as tk')
-   .leftJoin('projects as pr')
-   .select('tk.task_id', 'task_description', 'task_notes', 'task_completed', 'pr.project_name', 'pr.project_description')
-   .orderBy('task_id')
-   .limit(15)
+   const allData = await db('tasks as tk')
+   .leftJoin('projects as pr', 'tk.project_id', 'pr.project_id')
+   .select('tk.task_id', 'tk.task_description', 'tk.task_notes', 'tk.task_completed', 'pr.project_name', 'pr.project_description')
+   .groupBy('tk.task_id')
+   .orderBy('tk.task_id')
+   
+   return allData.map(task => {
+    if(task.task_completed === 1){
+        return {
+            ...task,
+            task_completed : true,
+        }
+    } else {
+        return {
+            ...task,
+            task_completed : false,
+        }
+    }
+})
+
 }
 
 async function addTask(task){
@@ -24,7 +39,7 @@ async function addTask(task){
         } else {
             return {
                 ...newTask,
-                task_completed: false
+                task_completed: true
             }
         }
         

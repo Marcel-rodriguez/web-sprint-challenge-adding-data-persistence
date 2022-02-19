@@ -3,6 +3,8 @@ const express = require('express')
 const router = express.Router()
 const projectModel = require('./model')
 
+const { checkProjectNameUnique, checkProjectPayload } = require('../middlewares/middlewares')
+
 router.get('/', (req, res, next) => {
     projectModel.getAll()
     .then(projects => {
@@ -10,7 +12,7 @@ router.get('/', (req, res, next) => {
     }).catch(next)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', checkProjectNameUnique, checkProjectPayload, (req, res, next) => {
     projectModel.addProject(req.body)
     .then(newProject => {
         res.status(201).json(newProject)

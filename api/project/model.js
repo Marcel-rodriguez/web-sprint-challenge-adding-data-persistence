@@ -9,7 +9,7 @@ async function getAll(){
                 ...project,
                 project_completed: true,
             }
-        } else {
+        } else if(project.project_completed === 0) {
             return {
                 ...project,
                 project_completed: false,
@@ -18,23 +18,36 @@ async function getAll(){
     })
 }
 
-async function addProject(project){
-    await db('projects').insert(project)
+ async function addProject(project){
+    //    const newProject = await db('projects').insert(project)
+    //    const response = await db('projects').where('project_id', newProject)
+
+    //    console.log(response[0])
+
+    //    if(!response[0].project_completed){
+    //        return{...response[0], project_completed: false}
+    //    } else {
+    //         return{...response[0], project_completed: true}
+    //    }
+
+    await db('projects')
+        .insert(project)
     const newProject = await db('projects')
         .where('project_name', project.project_name)
         .first()
 
-        if(newProject.task_completed === 0){
-            return {
+        if(newProject.project_completed === 0){
+            return{
                 ...newProject,
-                task_completed: false
+                project_completed: false
             }
         } else {
-            return {
+            return{
                 ...newProject,
-                task_completed: false
+                project_completed: true
             }
         }
+
 }
 
 module.exports = {
